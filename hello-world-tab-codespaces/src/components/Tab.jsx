@@ -1,10 +1,10 @@
-import React from "react";
-import { Welcome } from "./sample/Welcome";
+import Chat from "./chat/Chat";
 
 export default function Tab() {
   return (
     <div>
-      <Welcome />
+      {/* <Welcome /> */}
+      <Chat />
     </div>
   );
 }
