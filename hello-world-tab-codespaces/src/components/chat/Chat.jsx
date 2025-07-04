@@ -2,10 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import "./Chat.css";
 import OpenAI from "openai";
 
-const client = new OpenAI({
 
-    dangerouslyAllowBrowser: true
-});
 
 export default function Chat() {
     const [messages, setMessages] = useState([
@@ -14,44 +11,44 @@ export default function Chat() {
     const [loading, setLoading] = useState(false);
     const messagesEndRef = useRef(null);
 
-    useEffect(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [messages]);
-
-    const handleSend = async () => {
-        if (input.trim() === "" || loading) return;
-        const userMsg = { id: Date.now(), text: input, sender: "me" };
-        setMessages((msgs) => [...msgs, userMsg]);
-        setInput("");
-        setLoading(true);
-
-        try {
-            const response = await client.chat.completions.create({
-                model: "gpt-3.5-turbo",
-                messages: [
-                    ...messages
-                        .filter(m => m.sender !== "other") // Only user messages
-                        .map(m => ({ role: "user", content: m.text })),
-                    { role: "user", content: input }
-                ],
-            });
-            const aiText = response.choices[0]?.message?.content || "Sorry, I couldn't generate a response.";
-            setMessages(msgs => [
-                ...msgs,
-                { id: Date.now() + 1, text: aiText, sender: "other" }
-            ]);
-        } catch (error) {
-            setMessages(msgs => [
-                ...msgs,
-                { id: Date.now() + 1, text: "Error: " + error.message, sender: "other" }
-            ]);
-        }
-        setLoading(false);
-    };
+    /*     useEffect(() => {
+            messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        }, [messages]);
+    
+        const handleSend = async () => {
+            if (input.trim() === "" || loading) return;
+            const userMsg = { id: Date.now(), text: input, sender: "me" };
+            setMessages((msgs) => [...msgs, userMsg]);
+            setInput("");
+            setLoading(true);
+    
+            try {
+                const response = await client.chat.completions.create({
+                    model: "gpt-3.5-turbo",
+                    messages: [
+                        ...messages
+                            .filter(m => m.sender !== "other") // Only user messages
+                            .map(m => ({ role: "user", content: m.text })),
+                        { role: "user", content: input }
+                    ],
+                });
+                const aiText = response.choices[0]?.message?.content || "Sorry, I couldn't generate a response.";
+                setMessages(msgs => [
+                    ...msgs,
+                    { id: Date.now() + 1, text: aiText, sender: "other" }
+                ]);
+            } catch (error) {
+                setMessages(msgs => [
+                    ...msgs,
+                    { id: Date.now() + 1, text: "Error: " + error.message, sender: "other" }
+                ]);
+            }
+            setLoading(false);
+        }; */
 
     const handleInputKeyDown = (e) => {
         if (e.key === "Enter") {
-            handleSend();
+            // handleSend();
         }
     };
 
@@ -116,7 +113,7 @@ export default function Chat() {
                     }}
                 />
                 <button
-                    onClick={handleSend}
+                    // onClick={handleSend}
                     disabled={loading}
                     style={{
                         marginLeft: "8px",
